@@ -1,4 +1,4 @@
-# 风月 Player (Web Player)
+# Web Player
 
 一个轻量、现代化、模块化工程化的 Web 流媒体播放器与 IPTV 管理系统，专为 Cloudflare Workers / Cloudflare Pages 边缘计算环境打造。
 
