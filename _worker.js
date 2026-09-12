@@ -1,3 +1,9 @@
+/**
+ * 风月 Player - Cloudflare Workers / Pages 边缘部署单文件
+ * 由 build.js 自动生成，请勿直接手动修改此文件。
+ * 源码开发请编辑 src/ 目录下的对应模块文件。
+ */
+
 const HTML_PAGE = String.raw`<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
@@ -10,7 +16,7 @@ const HTML_PAGE = String.raw`<!DOCTYPE html>
 <script src="https://cdn.jsdelivr.net/npm/mpegts.js@1/dist/mpegts.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/dashjs@4/dist/dash.all.min.js"></script>
 <style>
-  :root{
+:root{
     --bg-1:#0f1020;
     --bg-2:#1a1c34;
     --accent:#7c5cff;
@@ -2312,14 +2318,20 @@ const HTML_PAGE = String.raw`<!DOCTYPE html>
     }
     if (!urlRaw) return [];
 
-    const urlGroups = urlRaw.split('$$$');
+    const urlGroups = urlRaw.split('$
+</body>
+</html>
+);
 
     const episodesMap = new Map();
     const episodesOrder = [];
     urlGroups.forEach(function(lineStr){
       const eps = lineStr.split('#').map(function(s){ return s.trim(); }).filter(Boolean);
       eps.forEach(function(epStr, epIdx){
-        const sepAt = epStr.indexOf('$');
+        const sepAt = epStr.indexOf('
+</body>
+</html>
+);
         let epName, epUrl;
         if (sepAt !== -1) {
           epName = epStr.slice(0, sepAt).trim() || ('第' + (epIdx + 1) + '集');
@@ -2395,7 +2407,10 @@ const HTML_PAGE = String.raw`<!DOCTYPE html>
       if (!lineStr) return;
       const eps = lineStr.split('#').map(function(s){ return s.trim(); }).filter(Boolean);
       eps.forEach(function(epStr, epIdx){
-        const sepAt = epStr.indexOf('$');
+        const sepAt = epStr.indexOf('
+</body>
+</html>
+);
         let epName, epUrl;
         if (sepAt !== -1) {
           epName = epStr.slice(0, sepAt).trim() || ('第' + (epIdx + 1) + '集');
@@ -2782,8 +2797,14 @@ const HTML_PAGE = String.raw`<!DOCTYPE html>
     "    for idx, ep in enumerate(str(group_str).split('#')):\n" +
     "        ep = ep.strip()\n" +
     "        if not ep: continue\n" +
-    "        if '$' in ep:\n" +
-    "            epname, epval = ep.split('$', 1)\n" +
+    "        if '
+</body>
+</html>
+ in ep:\n" +
+    "            epname, epval = ep.split('
+</body>
+</html>
+, 1)\n" +
     "            epname = epname.strip() or ('第' + str(idx+1) + '集')\n" +
     "            epval = epval.strip()\n" +
     "        else:\n" +
@@ -2795,8 +2816,14 @@ const HTML_PAGE = String.raw`<!DOCTYPE html>
     "def __csp_extract_play_groups__(vd):\n" +
     "    purl = vd.get('vod_play_url', '') or ''\n" +
     "    pfrom = vd.get('vod_play_from', '') or ''\n" +
-    "    url_groups = str(purl).split('$$$')\n" +
-    "    flag_names = str(pfrom).split('$$$') if pfrom else []\n" +
+    "    url_groups = str(purl).split('$
+</body>
+</html>
+)\n" +
+    "    flag_names = str(pfrom).split('$
+</body>
+</html>
+) if pfrom else []\n" +
     "    out = []\n" +
     "    for i, grp in enumerate(url_groups):\n" +
     "        flag = flag_names[i].strip() if i < len(flag_names) and flag_names[i].strip() else ('线路' + str(i+1))\n" +
