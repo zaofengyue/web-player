@@ -1,4 +1,4 @@
-name: Auto Build Worker
+name: Auto Build & Release
 
 on:
   push:
@@ -7,13 +7,14 @@ on:
     paths:
       - 'src/**'
       - 'build.js'
+      - '.github/workflows/**'
   workflow_dispatch:
 
 permissions:
   contents: write
 
 jobs:
-  build:
+  build-and-release:
     runs-on: ubuntu-latest
 
     steps:
@@ -39,3 +40,23 @@ jobs:
             git commit -m "chore(build): auto-update _worker.js by GitHub Actions"
             git push
           fi
+
+      - name: Create Pages Deploy Zip
+        run: |
+          zip -j web-player-pages.zip _worker.js README.md
+
+      - name: Release Pages Zip
+        uses: softprops/action-gh-release@v2
+        if: startsWith(github.ref, 'refs/tags/') || github.ref == 'refs/heads/main'
+        with:
+          tag_name: latest
+          name: "Latest Release (Pages Deploy Package)"
+          body: |
+            ### 🚀 Cloudflare Pages 一键上传部署包
+            
+            本压缩包专为 Cloudflare Pages 的 **直接上传 (Direct Upload)** 模式打造：
+            - 下载下方 `web-player-pages.zip`；
+            - 直接拖入 Cloudflare Pages 控制台上传；
+            - 绑定 `PLAYER_KV` 与 `ADMIN_PASSWORD` 即可完成秒级部署！
+          files: |
+            web-player-pages.zip
